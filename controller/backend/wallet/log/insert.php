@@ -17,25 +17,34 @@ return new class('WalletLog') extends matrix\web\backend\InsertController {
             return ['error' => 'error.data-not-found'];
         }
 
+        $precision = model('Currency')->get($wallet['currency_id'])['precision'];
+
+        if (!preg_match("/^-?\d+(\.\d{1,{$precision}}0*)?$/", $form['amount'])) {
+            return ['error' => 'error.invalid-wallet-log-amount'];
+        }
+
         $amount = floatval($form['amount']);
 
         if (!$amount) {
             return ['error' => 'error.invalid-wallet-log-amount'];
         }
 
-        $wallet['balance'] += $amount;
+        $wallet['balance'] = round($wallet['balance'] + $amount, $precision);
 
         $wallet = model('Wallet')->update($wallet);
 
-        if ($wallet) {
-            $form['the_date'] = date(cfg('system.date'));
-            $form['type'] = 1;
-            $form['balance'] = $wallet['balance'];
-
-            return parent::process($form);
+        if (!$wallet) {
+            return ['error' => 'error.insert-failed'];
         }
 
-        return ['error' => 'error.insert-failed'];
+        return parent::process([
+            'wallet_id' => $wallet['id'],
+            'the_date' => date(cfg('system.date')),
+            'type' => 1,
+            'amount' => $amount,
+            'balance' => $wallet['balance'],
+            'remark' => @$form['remark'],
+        ]);
     }
 
 };

@@ -10,6 +10,8 @@ return [
 
     'icon' => 'Icon',
 
+    'precision' => 'Precision',
+
     'enable_time' => 'Enable Time',
 
     'disable_time' => 'Disable Time',

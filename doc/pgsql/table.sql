@@ -5,6 +5,7 @@ CREATE TABLE base_currency (
     code         TEXT      NOT NULL UNIQUE,
     symbol       TEXT          NULL,
     icon         TEXT          NULL,
+    precision    INTEGER   NOT NULL,
     enable_time  TIMESTAMP     NULL,
     disable_time TIMESTAMP     NULL,
     ranking      INTEGER   NOT NULL

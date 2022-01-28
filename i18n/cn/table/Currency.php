@@ -10,6 +10,8 @@ return [
 
     'icon' => '图示',
 
+    'precision' => '精度',
+
     'enable_time' => '上架时间',
 
     'disable_time' => '下架时间',

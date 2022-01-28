@@ -3,6 +3,7 @@
 use matrix\db\column\DisableTime;
 use matrix\db\column\EnableTime;
 use matrix\db\column\Image;
+use matrix\db\column\Integer;
 use matrix\db\column\Ranking;
 use matrix\db\column\Text;
 use matrix\db\Table;
@@ -20,6 +21,9 @@ $tbl->add('code', Text::class)
 $tbl->add('symbol', Text::class);
 
 $tbl->add('icon', Image::class);
+
+$tbl->add('precision', Integer::class)
+    ->required(true);
 
 $tbl->add('enable_time', EnableTime::class);
 

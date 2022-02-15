@@ -31,6 +31,10 @@ return new class('WalletLog') extends matrix\web\backend\InsertController {
 
         $wallet['balance'] = round($wallet['balance'] + $amount, $precision);
 
+        if ($wallet['balance'] < $wallet['frozen']) {
+            return ['error' => 'error.invalid-wallet-log-amount'];
+        }
+
         $wallet = model('Wallet')->update($wallet);
 
         if (!$wallet) {

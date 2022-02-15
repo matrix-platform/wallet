@@ -12,7 +12,7 @@ return [
 
     'frozen' => '冻结额度',
 
-    'balance' => '可支配余额',
+    'balance' => '余额',
 
     'log_count' => '钱包明细',
 

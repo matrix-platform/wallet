@@ -13,8 +13,8 @@ return new class('Wallet') extends matrix\web\backend\ListController {
         $this->columns([
             'username',
             'currency_title',
-            'frozen',
             'balance',
+            'frozen',
             'log_count',
             'frozen_count',
         ]);

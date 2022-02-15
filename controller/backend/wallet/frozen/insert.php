@@ -24,12 +24,15 @@ return new class('FrozenLog') extends matrix\web\backend\InsertController {
 
         $amount = floatval($form['amount']);
 
-        if (!$amount || $amount > $wallet['balance'] || -$amount > $wallet['frozen']) {
+        if (!$amount) {
             return ['error' => 'error.invalid-frozen-log-amount'];
         }
 
         $wallet['frozen'] = round($wallet['frozen'] + $amount, $precision);
-        $wallet['balance'] = round($wallet['balance'] - $amount, $precision);
+
+        if ($wallet['balance'] < $wallet['frozen'] || $wallet['frozen'] < 0) {
+            return ['error' => 'error.invalid-frozen-log-amount'];
+        }
 
         $wallet = model('Wallet')->update($wallet);
 
@@ -37,25 +40,12 @@ return new class('FrozenLog') extends matrix\web\backend\InsertController {
             return ['error' => 'error.insert-failed'];
         }
 
-        $log = model('WalletLog')->insert([
+        return parent::process([
             'wallet_id' => $wallet['id'],
             'the_date' => date(cfg('system.date')),
             'type' => 2,
-            'amount' => -$amount,
-            'balance' => $wallet['balance'],
-            'remark' => @$form['remark'],
-        ]);
-
-        if (!$log) {
-            return ['error' => 'error.insert-failed'];
-        }
-
-        return parent::process([
-            'wallet_id' => $wallet['id'],
-            'the_date' => $log['the_date'],
-            'type' => $log['type'],
             'amount' => $amount,
-            'remark' => $log['remark'],
+            'remark' => @$form['remark'],
         ]);
     }
 

@@ -1,3 +1,15 @@
 <?php //>
 
-return new matrix\web\backend\ListController('Currency');
+return new class('Currency') extends matrix\web\backend\ListController {
+
+    protected function init() {
+        $this->columns([
+            'title',
+            'code',
+            'symbol',
+            'icon',
+            'precision',
+        ]);
+    }
+
+};

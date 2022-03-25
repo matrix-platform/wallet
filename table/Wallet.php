@@ -27,4 +27,13 @@ $tbl->add('balance', Double::class)
 $tbl->id->composite('log', 'WalletLog');
 $tbl->id->composite('frozen', 'FrozenLog');
 
+$tbl->title(function () {
+    return function ($data) {
+        $member = model('Member')->get($data['member_id']);
+        $currency = model('Currency')->get($data['currency_id']);
+
+        return "{$member['username']}-{$currency['title']}";
+    };
+});
+
 return $tbl;

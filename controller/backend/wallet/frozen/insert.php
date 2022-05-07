@@ -18,7 +18,7 @@ return new class('FrozenLog') extends matrix\web\backend\InsertController {
 
         $precision = model('Currency')->get($wallet['currency_id'])['precision'];
 
-        if (!preg_match("/^-?\d+(\.\d{1,{$precision}}0*)?$/", $form['amount'])) {
+        if (!preg_match($precision ? "/^-?\d+(\.\d{1,{$precision}}0*)?$/" : "/^-?\d+$/", $form['amount'])) {
             return ['error' => 'error.invalid-frozen-log-amount'];
         }
 

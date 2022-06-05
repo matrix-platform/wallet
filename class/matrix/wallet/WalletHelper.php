@@ -4,6 +4,17 @@ namespace matrix\wallet;
 
 trait WalletHelper {
 
+    protected function getWallet($member, $currency) {
+        $conditions = [
+            'member_id' => $member['id'],
+            'currency_id' => $currency['id'],
+        ];
+
+        $model = model('Wallet');
+
+        return $model->find($conditions) ?: $model->insert($conditions);
+    }
+
     private function freeze($type, $member, $currency, $amount, $remark, $snapshot) {
         $wallet = $this->getWallet($member, $currency);
         $wallet['frozen'] = round($wallet['frozen'] + $amount, $currency['precision']);
@@ -30,17 +41,6 @@ trait WalletHelper {
         }
 
         return null;
-    }
-
-    private function getWallet($member, $currency) {
-        $conditions = [
-            'member_id' => $member['id'],
-            'currency_id' => $currency['id'],
-        ];
-
-        $model = model('Wallet');
-
-        return $model->find($conditions) ?: $model->insert($conditions);
     }
 
     private function manipulate($type, $member, $currency, $amount, $remark, $snapshot) {

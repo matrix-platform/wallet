@@ -15,7 +15,7 @@ trait WalletHelper {
         return $model->find($conditions) ?: $model->insert($conditions);
     }
 
-    private function freeze($type, $member, $currency, $amount, $remark, $snapshot) {
+    private function freeze($type, $member, $currency, $amount, $remark, $snapshot, $target_id = null) {
         $wallet = $this->getWallet($member, $currency);
         $wallet['frozen'] = round($wallet['frozen'] + $amount, $currency['precision']);
 
@@ -31,6 +31,7 @@ trait WalletHelper {
                 'the_date' => date(cfg('system.date')),
                 'type' => $type,
                 'amount' => $amount,
+                'target_id' => $target_id,
                 'remark' => $remark,
                 'snapshot' => $snapshot,
             ]);
@@ -43,7 +44,7 @@ trait WalletHelper {
         return null;
     }
 
-    private function manipulate($type, $member, $currency, $amount, $remark, $snapshot) {
+    private function manipulate($type, $member, $currency, $amount, $remark, $snapshot, $target_id = null) {
         $wallet = $this->getWallet($member, $currency);
         $wallet['balance'] = round($wallet['balance'] + $amount, $currency['precision']);
 
@@ -60,6 +61,7 @@ trait WalletHelper {
                 'type' => $type,
                 'amount' => $amount,
                 'balance' => $wallet['balance'],
+                'target_id' => $target_id,
                 'remark' => $remark,
                 'snapshot' => $snapshot,
             ]);

@@ -33,6 +33,9 @@ $tbl->add('balance', Double::class)
     ->readonly(true)
     ->required(true);
 
+$tbl->add('target_id', Integer::class)
+    ->readonly(true);
+
 $tbl->add('remark', Textarea::class)
     ->readonly(true);
 

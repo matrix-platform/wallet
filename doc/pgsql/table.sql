@@ -26,6 +26,7 @@ CREATE TABLE base_wallet_log (
     type        INTEGER          NOT NULL, -- options: wallet-log-type
     amount      DOUBLE PRECISION NOT NULL,
     balance     DOUBLE PRECISION NOT NULL,
+    target_id   INTEGER              NULL,
     remark      TEXT                 NULL,
     snapshot    TEXT                 NULL,
     create_time TIMESTAMP        NOT NULL
@@ -37,6 +38,7 @@ CREATE TABLE base_frozen_log (
     the_date    DATE             NOT NULL,
     type        INTEGER          NOT NULL, -- options: wallet-log-type
     amount      DOUBLE PRECISION NOT NULL,
+    target_id   INTEGER              NULL,
     remark      TEXT                 NULL,
     snapshot    TEXT                 NULL,
     create_time TIMESTAMP        NOT NULL
